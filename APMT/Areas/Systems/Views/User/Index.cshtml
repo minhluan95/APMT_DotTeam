@@ -1,0 +1,110 @@
+﻿@using Models;
+@model IEnumerable<APMT_User>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Systems/Views/Shared/_Layout.cshtml";
+    int i = 0;
+}
+
+<section class="content-header">
+    <h1>
+        User List
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">User Management</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12 col-lg-12">
+           
+            <div class="box">
+                <div class="box-header">
+                    <center>
+                        <h2>Users Table</h2>
+                    </center>
+                </div>
+                <div class="box-body">
+                    <p>@ViewBag.Result</p>
+                    <table id="userlist" class="table table-hover table-bordered table-responsive">
+                        <thead>
+                            <tr>
+                                <th class="col-lg-1 col-md-1 col-sm-1 col-xs-1"><center>No.</center></th>
+                                <th class="col-lg-1 col-md-1 col-sm-1 col-xs-1"><center>Full Name</center></th>
+                                <th class="col-lg-1 col-md-1 col-sm-1 col-xs-1"><center>Role </center></th>
+                                <th class="col-lg-1 col-md-1 col-sm-1 col-xs-1"><center>Enable </center></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                i++;
+                                <tr>
+                                    <td><center>@i</center></td>
+                                    <td>
+                                        <center><a href="/Systems/User/viewInfor_User/@item.ID" class="linkdetail">@item.Fullname</a></center>
+                                    </td>
+                                    <td>
+                                        <center>
+                                            <input class="icheckAdmin" type="checkbox" checked="@item.IsProAdmin" name="isProAdministrator" id="isProAdministrator" onclick="return setProAdmin(@item.ID)" /> Product Administrator
+                                        </center>
+                                    </td>
+                                    <td>
+                                        @if (@item.Allowed == 1)
+                                        {
+                                            <center>
+                                                <input class="icheckStatus" type="checkbox" checked="checked" onclick="return setStatus(@item.ID)" />
+                                            </center>
+                                        }
+                                        else
+                                        {
+                                            <center>
+                                                <input class="icheckStatus" type="checkbox" onclick="return setStatus(@item.ID)" />
+                                            </center>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-sm-5 col-lg-5">
+                    <script>
+                        $(function () {
+                            $('#userlist').DataTable({
+                                "paging": true,
+                                "lengthChange": true,
+                                "searching": true,
+                                "ordering": true,
+                                "info": true,
+                                "autoWidth": false,
+                                "columnDefs": [{ targets: -1, orderable: false }, { targets: -2, orderable: false }]
+                            });
+                        })
+                    </script>
+                </div>
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+    </div>
+    <script>
+
+    $('.linkdetail').click(function (e) {
+        var a_href = $(this).attr('href'); /* Lấy giá trị của thuộc tính href */
+        e.preventDefault(); /* Không thực hiện action mặc định */
+        $.ajax({ /* Gửi request lên server */
+            url: a_href, /* Nội dung trong Delete.cshtml cụ thể là deleteModal div được server trả về */
+            type: 'GET',
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) { /* Sau khi nhận được giá */
+                $('.body-content').prepend(data); /* body-content div (định nghĩa trong _Layout.cshtml) sẽ thêm deleteModal div vào dưới cùng */
+                $('#detailModal').modal('show'); /* Hiển thị deleteModal div dưới kiểu modal */
+            }
+        });
+    });
+    </script>
+               
+</section>
+<script src="~/Content/client/scripts/UserManagerment.js"></script>

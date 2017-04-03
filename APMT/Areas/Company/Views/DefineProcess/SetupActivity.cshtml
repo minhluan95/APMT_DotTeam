@@ -1,0 +1,90 @@
+﻿@model  IEnumerable<Models.APMT_Activity>
+@{
+    ViewBag.Title = "Step-Config";
+    Layout = "~/Areas/Company/Views/Shared/_Layout.cshtml";
+    int i = 0;
+}
+<section class="content-header">
+    <h1>
+        Setup activity
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active"> Setup activity</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+       
+        <div class="col-lg-12">
+            <a href="/Company/DefineProcess/Index/@ViewBag.processid" class="btn btn-primary">Modify Process</a>
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">List of Activity in @ViewBag.ProcessName</h3>
+                </div>
+                <div class="box-body">
+                    <table id="example2" class="table table-bordered table-hover text-center">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Weight</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item in Model)
+                            {
+                                i = i + 1;
+                                <tr>
+                                    <td>@i</td>
+                                    <td><a class="detail" href="/Company/DefineProcess/ActivityDetail/@item.ID">@item.Name </a></td>
+                                    <td>@item.Description</td>
+                                    <td>@item.Weigth</td>
+
+                                </tr>
+                            }
+
+                        </tbody>
+                        <tfoot>
+
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="detailac">
+    </div>
+</section>
+<script>
+    $('.detail').click(function (e) {
+        $('.detailac').empty();
+        var a_href = $(this).attr('href'); /* Lấy giá trị của thuộc tính href */
+        e.preventDefault(); /* Không thực hiện action mặc định */
+        $.ajax({ /* Gửi request lên server */
+            url: a_href, /* Nội dung trong Delete.cshtml cụ thể là deleteModal div được server trả về */
+            type: 'GET',
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) { /* Sau khi nhận được giá */
+                $('.detailac').prepend(data); /* body-content div (định nghĩa trong _Layout.cshtml) sẽ thêm deleteModal div vào dưới cùng */
+
+            }
+        });
+    });
+</script>
+<script>
+    $(function () {
+
+        $('#example2').DataTable({
+            "paging": false,
+            "lengthChange": false,
+            "searching": true,
+            "ordering": false,
+            "info": false,
+            "autoWidth": false
+        });
+    });
+</script>

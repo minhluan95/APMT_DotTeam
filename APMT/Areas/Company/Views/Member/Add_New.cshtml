@@ -1,0 +1,36 @@
+﻿@using Models;
+@model APMT_User
+@{
+    Layout = null;
+}
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+<button type="submit" class="btn btn-primary glyphicon glyphicon-plus" data-toggle="collapse" data-target="#AddNew"></button>
+<div id="AddNew" class="box collapse">
+    <!-- /.box-header -->
+    <!-- form start -->
+    <form role="form" action="~/Company/Member/Add_New/" method="post">
+        <div class="box-body">
+            <div class="form-group">
+                <label for="exampleInputFile">Email</label>
+                <input class="form-control" type="text" id="txtCM_email" name="txtCM_email" data-autocomplete-url="autocomplete" />
+            </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+            <button type="submit" class="btn btn-primary btn-md" data-toggle="modal" data-target="#Add_New_Modal">Add</button>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" language="javascript">
+
+        $(document).ready(function (request) {
+            $("#txtCM_email").autocomplete({
+                source: 'autocompleteC_Member',
+                //data: "{ 'term':'" + request.term + "'}",
+                data: "{term : '"+request.term+"'}",
+
+            });
+        })
+</script>

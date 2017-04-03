@@ -1,0 +1,82 @@
+﻿@model Models.APMT_Process
+@{
+    ViewBag.Title = "Define process";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Define Process</title>
+    <meta name="description" content="APMT Define process, define work flow, make process" />
+    <meta charset="UTF-8">
+    <script src="~/Scripts/go.js"></script>
+    <script src="~/Scripts/definepro.js"></script>
+    <link href="~/Content/css/definepro.css" rel="stylesheet" />
+   
+</head>
+<body onload="init()">
+
+
+    <div id="sample">
+        <div class="sam">
+            <span style="display: inline-block; vertical-align: top;width:15%;">
+                <div id="myPaletteDiv"></div>
+                <img src="~/Images/process/wa.png" style="position: absolute; top: 55px; left: 60px; z-index: 2; user-select: none;" />
+            </span>
+
+            <span style="display: inline-block; vertical-align: top;width:84.7%;">
+                <div id="myDiagramDiv">
+                    
+                </div>
+                <img src="~/Images/process/watermark.png" style="position: absolute; top: 55px; left: 250px; z-index: 2; user-select: none;" />
+                
+            </span>
+        </div>
+
+        <div>
+            
+                <textarea id="mySavedModel">
+                    @Model.JsonContent
+                </textarea>
+               
+                <div>
+                    <button id="SaveButton" class="btn btn-success" onclick="abc('/Company/DefineProcess/updateProcess/@Model.ID')">Save</button>
+                    <a href="/Company/DefineProcess/SaveActivity/@Model.ID" class="btn btn-success">Activity config</a>
+                    <span class="label label-success" id="label"></span>
+                    <span class="label label-danger" id="label1"></span>
+                    @*<button onclick="load()">Load</button>*@
+                    @*<button onclick="makeSVG()" class="btn btn-success">Preview Process Image</button>
+                        <div id="SVGArea"></div>*@
+
+                </div>
+            
+        </div>
+    </div>
+    <script>
+        function abc(action) {
+            save();
+            load();
+            $.ajax({
+                type: "POST",
+                url: action,
+                data: { jsoncontent: $('#mySavedModel').val() },
+                success: function (data) {
+                    
+                    $("#label").html(data);
+                    setTimeout(function () {
+                        $("#label").html('');
+                    }, 2000);
+                },
+                error: function () {
+                    $("#label1").html('Unsaved! The process not right!');
+                    setTimeout(function () {
+                        $("#label1").html('');
+                    }, 2000);
+                }
+
+            });
+        }
+    </script>
+</body>
+</html>

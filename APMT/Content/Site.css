@@ -1,0 +1,34 @@
+﻿#ddlCulture{
+    background-color:transparent;
+    color:white;
+    border:1px solid white;
+    margin:17% 5% 0 0;
+    border-radius:3px;
+}
+#ddlCulture option{
+    color:black;
+}
+.panel-green{
+    border-color:#5cb85c;
+}
+.panel-green > .panel-heading {
+    border-color: #5cb85c;
+    color: white;
+    background-color: #5cb85c;
+}
+.panel-yellow {
+    border-color: #f0ad4e;
+}
+.panel-yellow > .panel-heading {
+    border-color: #f0ad4e;
+    color: white;
+    background-color: #f0ad4e;
+}
+.panel-red {
+    border-color: #d9534f;
+}
+.panel-red > .panel-heading {
+    border-color: #d9534f;
+    color: white;
+    background-color: #d9534f;
+}
